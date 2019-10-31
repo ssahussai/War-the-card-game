@@ -10,6 +10,9 @@ If the two cards played are of equal value, then there is a "war". Both players 
 
 At the end of the game the player with the most cards win. 
 
+## User Stories
+<!-- As a player, I want to begin the game with all my 26 cards being upside down on the deck.  -->
+
 ## Technologies Used: 
 * HTML
 * CSS
