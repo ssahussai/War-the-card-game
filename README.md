@@ -16,7 +16,7 @@ At the end of the game the player with the most cards win.
 * JavaScript 
 
 ## Next Steps...
-This game can be enhanced by making it a 3 player games. 
+This game can be enhanced by making it a 3 players game. 
 
 <!-- A README.md file with these sections:
 
