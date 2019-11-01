@@ -7,7 +7,9 @@ const lookUpObject = {
 let turn, p1Score, p2Score, gameboard, cardsInPlay, winner; 
 
 /*----- cached element references -----*/
-
+const p1Hand = document.querySelector('.player1Hand');
+const p2Hand = document.querySelector('.player2Hand');
+const message = document.getElementById('message');
 
 /*----- event listeners -----*/
 document.getElementById('resetButton').addEventListener('click', init);
@@ -31,31 +33,9 @@ function handleCardClick() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Pseudocode for the game:
-1.	As a player I should land on the homepage and see a gameboard with the title heading "War – the card game",  all my 26 cards upside down on the deck, the scoreboard /winning card board is cleared to zero and the gameboard is ready for me to begin the game.
+1.	As a player I should land on the homepage and see a gameboard with the title heading "War – the card game",  all my 26 
+    cards upside down on the deck, the scoreboard /winning card board is cleared to zero and the gameboard is ready for me to begin the game.
 2.	I should be able to see a message that tells me who's turn it is.
 3.	I should be able to start the game immediately by clicking on a card and see my card flipped over. 
 4.	Once the card flips over, the game should automatically switch turns and shows a message of whose turn it is. 

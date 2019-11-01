@@ -80,3 +80,8 @@ img {
     display: flex;
     
 }
+
+#message {
+    text-align: center;
+    color: grey;
+}
