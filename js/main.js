@@ -11,14 +11,19 @@ let turn, p1Score, p2Score, gameboard, cardsInPlay, winner;
 
 /*----- event listeners -----*/
 document.getElementById('resetButton').addEventListener('click', init);
+document.getElementById('cards').addEventListener('click', handleCardClick);
+
+
 
 /*----- functions -----*/
 init();
-
 function init() {
 
 }
 
+function handleCardClick() {
+
+}
 
 
 
