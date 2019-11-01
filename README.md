@@ -23,8 +23,8 @@ This game can be enhanced by making it a 3 players game.
 
 ## Link To The Game
 [Click Here](https://ssahussai.github.io/War-the-card-game/) 
-<!-- A README.md file with these sections:
 
+<!-- A README.md file with these sections:
 ☐ Screenshot(s): Images of your actual game.
-☐ Getting Started: In this section include the link to your deployed game and any instructions you deem important.
+
 
