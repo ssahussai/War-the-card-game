@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    background-color: bisque;
   }
 
   h1 {
@@ -26,8 +27,8 @@
     outline: none;
     cursor: pointer;
     text-align: center;
-    position:absolute;
-    bottom:10px;
+    position: relative;
+    bottom:30px;
     left: 50%;
  }
 
@@ -37,3 +38,27 @@
 }
 
 /* today's work */
+img {
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 5px 5px 50px 5px;
+  cursor: pointer;
+  /* Set the card's dimensions, and size it relative to
+     it's font size. */
+  font-size: inherit;
+  width: 4.0em;
+  height: 5.5em;
+  /* Add a default background color and border. */
+  background-color: #fff;
+  border-radius: 0.20em;
+  border: 1px solid #c3c3c3;
+  /* Scale and set the background settings. */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  /* "Hide" any text within the element (use text to be
+     simply compliant with screen readers, etc.). */
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
