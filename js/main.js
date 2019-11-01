@@ -1,10 +1,52 @@
 /*----- constants -----*/
-players, cards, winningCombo, 
+const lookUpObject = {
+    '1': 'Player One',
+    '-1': 'Player Two'
+};
 /*----- app's state (variables) -----*/
-let turn, gameboard, cardsInPlay; 
+let turn, p1Score, p2Score, gameboard, cardsInPlay, winner; 
+
 /*----- cached element references -----*/
+
+
 /*----- event listeners -----*/
+document.getElementById('resetButton').addEventListener('click', init);
+
 /*----- functions -----*/
+init();
+
+function init() {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* Pseudocode for the game:

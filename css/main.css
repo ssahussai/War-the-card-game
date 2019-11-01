@@ -4,4 +4,15 @@
 
   h1 {
       text-align: center;
+      background-color: rgb(194, 111, 99);
+      color: white;
+      height: 60px;
+      padding-top: 10px;
   }
+
+  p {
+      font-size: 18px;
+      font-family: Helvetica;
+  }
+
+ 
