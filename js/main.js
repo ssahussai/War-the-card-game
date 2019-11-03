@@ -3,41 +3,108 @@ const lookUpObject = {
     '1': 'Player One',
     '-1': 'Player Two'
 };
+
+var suits = ['s', 'c', 'd', 'h'];
+var ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
+
+var p1Hand = [];
+var p2Hand = [];
+var cards = [];
+
+
 /*----- app's state (variables) -----*/
 let turn, p1Score, p2Score, gameboard, cardsInPlay, winner; 
 
 /*----- cached element references -----*/
-const p1Hand = document.querySelector('.player1Hand');
-const p2Hand = document.querySelector('.player2Hand');
+const p1container = document.querySelector('.container1');
+const p2container = document.querySelector('.container2');
 const message = document.getElementById('message');
 
 /*----- event listeners -----*/
 document.getElementById('resetButton').addEventListener('click', init);
-document.getElementById('cards').addEventListener('click', handleCardClick);
-
-
+document.querySelector('.player1Hand').addEventListener('click', flipCard);
+document.querySelector('.player2Hand').addEventListener('click', flipCard);
 
 /*----- functions -----*/
 init();
 function init() {
-
+    turn = 1
+    winner = false; 
+    cards = buildMasterDeck();
+    cards = shuffleDeck();
+    dealCards();
+    render();
 }
 
-function handleCardClick() {
-
+function buildMasterDeck() {
+    const deck = [];
+    suits.forEach(function(suit) {
+        ranks.forEach(function(rank) {
+            deck.push({
+                face: `${suit}${rank}`,
+                value: Number(rank) || (rank === 'A' ? 11 : 10)
+            });
+        });
+    });
+    return deck;
 }
 
+function shuffleDeck() {
+    const tempDeck = cards.slice();
+    const shuffledDeck = [];
+    
+    while(tempDeck.length) {
+        let = randomIndex = Math.floor(Math.random() * tempDeck.length);
+        shuffledDeck.push(tempDeck.splice(randomIndex, 1)[0]);
+    }
+    return shuffledDeck;
+}
 
+function dealCards() {
+    let sequence = 1;
+    for(let i = 0; i < 52; i++) {
+        if(sequence === 1) {
+            p1Hand.push(cards.shift());
+            sequence *= -1
+        } else if(sequence === -1) {
+            p2Hand.push(cards.shift());
+            sequence *= -1
+        }
+    }
+}
 
+function flipCard(evt) {
+    const selectedCard = parseInt(evt.target.dataset.idx);
+    if(isNaN(selectedCard)) return;
+    if(evt.target.dataset.player === 'p1') {
+        const card = p1Hand[selectedCard];
+        evt.target.classList.add(`${card.face}`)
+        evt.target.classList.remove(`back-red`)
+    } else if(evt.target.dataset.player === 'p2') {
+        const card = p2Hand[selectedCard];
+        evt.target.classList.add(`${card.face}`)
+        evt.target.classList.remove(`back-blue`)
+    }
+}
+
+function buildCardUi(card, p, i) {
+    return `
+        <div data-player="${p}" data-idx="${i}" class="card ${p === 'p1' ? 'back-red': 'back-blue'}"></div>
+    `;
+}
+
+//tranfer the game from js to the DOM through render()
+function render() {
+    p1container.innerHTML = p1Hand.map((card, idx) => buildCardUi(card, 'p1', idx)).join("");
+    p2container.innerHTML = p2Hand.map((card, idx) => buildCardUi(card, 'p2', idx)).join("");
+}
 
 
 
 
 /* Pseudocode for the game:
-1.	As a player I should land on the homepage and see a gameboard with the title heading "War – the card game",  all my 26 
-    cards upside down on the deck, the scoreboard /winning card board is cleared to zero and the gameboard is ready for me to begin the game.
-2.	I should be able to see a message that tells me who's turn it is.
-3.	I should be able to start the game immediately by clicking on a card and see my card flipped over. 
+2.	I should be able to start the game immediately by clicking on a card and see my card flipped over. 
+3.  I should be able to see a message that tells me who's turn it is.
 4.	Once the card flips over, the game should automatically switch turns and shows a message of whose turn it is. 
 5.	After the 2nd player’s turn, the game should compare card values of both players 
     a.	If both cards have different values, drag both cards to the right side of the player who played the higher card. 
