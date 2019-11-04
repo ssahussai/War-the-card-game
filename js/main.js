@@ -11,7 +11,6 @@ var p1Hand = [];
 var p2Hand = [];
 var cards = [];
 
-
 /*----- app's state (variables) -----*/
 let turn, p1Score, p2Score, gameboard, cardsInPlay, winner; 
 
@@ -52,9 +51,8 @@ function buildMasterDeck() {
 function shuffleDeck() {
     const tempDeck = cards.slice();
     const shuffledDeck = [];
-    
     while(tempDeck.length) {
-        let = randomIndex = Math.floor(Math.random() * tempDeck.length);
+        let randomIndex = Math.floor(Math.random() * tempDeck.length);
         shuffledDeck.push(tempDeck.splice(randomIndex, 1)[0]);
     }
     return shuffledDeck;
@@ -84,8 +82,11 @@ function flipCard(evt) {
         const card = p2Hand[selectedCard];
         evt.target.classList.add(`${card.face}`)
         evt.target.classList.remove(`back-blue`)
-    }
+    } 
+    //turn *= -1 
+    //render();   
 }
+
 
 function buildCardUi(card, p, i) {
     return `
@@ -97,14 +98,21 @@ function buildCardUi(card, p, i) {
 function render() {
     p1container.innerHTML = p1Hand.map((card, idx) => buildCardUi(card, 'p1', idx)).join("");
     p2container.innerHTML = p2Hand.map((card, idx) => buildCardUi(card, 'p2', idx)).join("");
+    message.textContent = `Now it's ${lookUpObject[turn]}'s turn`;
+    message.textContent = `Now it's ${lookUpObject[turn]}'s turn`;  
 }
 
 
 
 
+
+
+
+
+
+
 /* Pseudocode for the game:
-2.	I should be able to start the game immediately by clicking on a card and see my card flipped over. 
-3.  I should be able to see a message that tells me who's turn it is.
+3.  I should be able to see a message that tells me whose turn it is.
 4.	Once the card flips over, the game should automatically switch turns and shows a message of whose turn it is. 
 5.	After the 2nd player’s turn, the game should compare card values of both players 
     a.	If both cards have different values, drag both cards to the right side of the player who played the higher card. 
