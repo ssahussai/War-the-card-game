@@ -19,6 +19,7 @@ const p1container = document.querySelector('.container1');
 const p2container = document.querySelector('.container2');
 const message = document.getElementById('message');
 
+
 /*----- event listeners -----*/
 document.getElementById('resetButton').addEventListener('click', init);
 document.querySelector('.player1Hand').addEventListener('click', flipCard);
@@ -41,7 +42,8 @@ function buildMasterDeck() {
         ranks.forEach(function(rank) {
             deck.push({
                 face: `${suit}${rank}`,
-                value: Number(rank) || (rank === 'A' ? 11 : 10)
+                value: Number(rank) || (rank === 'A' ? 11 : 10),
+                flipped: false
             });
         });
     });
@@ -76,21 +78,22 @@ function flipCard(evt) {
     if(isNaN(selectedCard)) return;
     if(evt.target.dataset.player === 'p1') {
         const card = p1Hand[selectedCard];
-        evt.target.classList.add(`${card.face}`)
-        evt.target.classList.remove(`back-red`)
+        card.flipped = true;
     } else if(evt.target.dataset.player === 'p2') {
         const card = p2Hand[selectedCard];
-        evt.target.classList.add(`${card.face}`)
-        evt.target.classList.remove(`back-blue`)
+        card.flipped = true;
     } 
-    //turn *= -1 
-    //render();   
+    turn *= -1 
+    render();   
 }
-
 
 function buildCardUi(card, p, i) {
     return `
-        <div data-player="${p}" data-idx="${i}" class="card ${p === 'p1' ? 'back-red': 'back-blue'}"></div>
+        <div 
+        data-player="${p}" 
+        data-idx="${i}" 
+        class="card ${card.flipped ? card.face : p === 'p1' ? 'back-red': 'back-blue'}">
+        </div>
     `;
 }
 
@@ -112,8 +115,6 @@ function render() {
 
 
 /* Pseudocode for the game:
-3.  I should be able to see a message that tells me whose turn it is.
-4.	Once the card flips over, the game should automatically switch turns and shows a message of whose turn it is. 
 5.	After the 2nd player’s turn, the game should compare card values of both players 
     a.	If both cards have different values, drag both cards to the right side of the player who played the higher card. 
         i.	The cards that were clicked in the deck, should fadeout.
@@ -127,7 +128,6 @@ function render() {
 6.	The game should repeat steps 2-5 until all 52 cards disappear from the deck. 
 7.	The player with the most cards in the winning board should be calculated as winner.
 8.	I should see the message change to show me who has won the game
-9.	I should see a button that allows me to click to reset the game
 */
 
 
