@@ -12,7 +12,7 @@ var p2Hand = [];
 var cards = [];
 
 /*----- app's state (variables) -----*/
-let turn, p1Score, p2Score, gameboard, cardsInPlay, winner; 
+let turn, p1CardInPlay, p1Score, p2CardInPlay, p2Score, winner, cardsInPlay; 
 
 /*----- cached element references -----*/
 const p1container = document.querySelector('.container1');
@@ -32,6 +32,11 @@ function init() {
     winner = false; 
     cards = buildMasterDeck();
     cards = shuffleDeck();
+    cardsInPlay = [];
+    p1CardInPlay = 0;
+    p2CardInPlay = 0;
+    p1Score = 0;
+    p2Score = 0;
     dealCards();
     render();
 }
@@ -50,6 +55,8 @@ function buildMasterDeck() {
     return deck;
 }
 
+
+
 function shuffleDeck() {
     const tempDeck = cards.slice();
     const shuffledDeck = [];
@@ -62,16 +69,22 @@ function shuffleDeck() {
 
 function dealCards() {
     let sequence = 1;
+    let dealtCard;
     for(let i = 0; i < 52; i++) {
         if(sequence === 1) {
-            p1Hand.push(cards.shift());
+            dealtCard = cards.shift();
+            dealtCard.player = 'p1'
+            p1Hand.push(dealtCard);
             sequence *= -1
         } else if(sequence === -1) {
-            p2Hand.push(cards.shift());
+            dealtCard = cards.shift();
+            dealtCard.player = 'p2'
+            p2Hand.push(dealtCard);
             sequence *= -1
         }
     }
 }
+
 
 function flipCard(evt) {
     const selectedCard = parseInt(evt.target.dataset.idx);
@@ -79,44 +92,82 @@ function flipCard(evt) {
     if(evt.target.dataset.player === 'p1') {
         const card = p1Hand[selectedCard];
         card.flipped = true;
+        cardsInPlay.push(p1Hand[selectedCard])
+        checkScore();
     } else if(evt.target.dataset.player === 'p2') {
         const card = p2Hand[selectedCard];
         card.flipped = true;
+        cardsInPlay.push(p2Hand[selectedCard])
+        checkScore();
     } 
-    turn *= -1 
+    turn *= -1
     render();   
 }
 
-function buildCardUi(card, p, i) {
+function buildCardUi(card, i) {
     return `
         <div 
-        data-player="${p}" 
+        data-player="${card.player}" 
         data-idx="${i}" 
-        class="card ${card.flipped ? card.face : p === 'p1' ? 'back-red': 'back-blue'}">
+        class="card ${card.flipped ? card.face : card.player === 'p1' ? 'back-red': 'back-blue'}">
         </div>
     `;
 }
 
 //tranfer the game from js to the DOM through render()
 function render() {
-    p1container.innerHTML = p1Hand.map((card, idx) => buildCardUi(card, 'p1', idx)).join("");
-    p2container.innerHTML = p2Hand.map((card, idx) => buildCardUi(card, 'p2', idx)).join("");
-    message.textContent = `Now it's ${lookUpObject[turn]}'s turn`;
+    p1container.innerHTML = p1Hand.map((card, idx) => buildCardUi(card, idx)).join("");
+    p2container.innerHTML = p2Hand.map((card, idx) => buildCardUi(card, idx)).join("");
     message.textContent = `Now it's ${lookUpObject[turn]}'s turn`;  
 }
 
 
 
+//this function should tell me who holds the higher card and player with higher card gets a point
+ function checkScore() {
+     if(cardsInPlay.length < 2) return;
+    let points = 0;
+    cardsInPlay.forEach(elem => {
+        if(elem.player === 'p1') {
+            p1CardInPlay += elem.value;
+            points += elem.value;
+        } else if(elem.player === 'p2') {
+            p2CardInPlay += elem.value;
+            points += elem.value;
+        }
+    });
+    if(p1CardInPlay > p2CardInPlay) {
+        console.log('P1 gets the point')
+        p1Score += points;
+        p1CardInPlay = 0
+        clearCardsFromHand();
+    } else {
+        console.log('P2 gets the point')
+        p2Score += points;
+        p2CardInPlay = 0
+        clearCardsFromHand();
+    }
+
+}
+
+function clearCardsFromHand() {
+    for(let i = 0; i < cardsInPlay.length; i++) {
+        if(cardsInPlay[i].player === 'p1') {
+            p1Hand = p1Hand.filter(elem => elem.face !== cardsInPlay[i].face)
+        } else {
+            p2Hand = p2Hand.filter(elem => elem.face !== cardsInPlay[i].face)
+        }
+    }
+    cardsInPlay = [];
+    // setTimeout(render, 5000);
+}
 
 
 
-
-
-
-
-/* Pseudocode for the game:
+/* 
 5.	After the 2nd player’s turn, the game should compare card values of both players 
-    a.	If both cards have different values, drag both cards to the right side of the player who played the higher card. 
+    a.	If both cards have different values, drag both cards to the right side of 
+        the player who played the higher card. 
         i.	The cards that were clicked in the deck, should fadeout.
     b.	If both cards have the same value, prompt a message saying “It’s a war. Please choose 3 more cards”.
         i.	After the 2nd player’s turn, the game should add the value of all 6 cards and compare card values of both players to see who played the higher cards. 
