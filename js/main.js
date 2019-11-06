@@ -3,17 +3,29 @@ const lookUpObject = {
     '1': 'Player One',
     '-1': 'Player Two'
 };
-
 var suits = ['s', 'c', 'd', 'h'];
 var ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
 
 /*----- app's state (variables) -----*/
-let turn, p1Hand, p2Hand, p1CardInPlay, p1Score, p2CardInPlay, p2Score, winner, cards, cardsInPlay; 
+let turn, 
+    p1Hand, 
+    p2Hand, 
+    p1CardInPlay, 
+    p1Score, 
+    p2CardInPlay, 
+    p2Score,
+    result, 
+    winner, 
+    cards, 
+    cardsInPlay; 
 
 /*----- cached element references -----*/
 const p1container = document.querySelector('.container1');
 const p2container = document.querySelector('.container2');
 const message = document.getElementById('message');
+const resultEl = document.getElementById('result');
+const p1ScoreEl = document.getElementById('p1');
+const p2ScoreEl = document.getElementById('p2');
 
 
 /*----- event listeners -----*/
@@ -32,6 +44,7 @@ function init() {
     cardsInPlay = [];
     p1Hand = [];
     p2Hand = [];
+    result = null;
     p1CardInPlay = 0;
     p2CardInPlay = 0;
     p1Score = 0;
@@ -113,7 +126,7 @@ function buildCardUi(card, i) {
 
 //this function shows who holds the higher card and player with higher card gets a point
  function checkScore() {
-     render();
+    render();
     if(cardsInPlay.length < 2) return;
     let points = 0;
     cardsInPlay.forEach(elem => {
@@ -126,14 +139,17 @@ function buildCardUi(card, i) {
         }
     });
     if(p1CardInPlay > p2CardInPlay) {
-        console.log('P1 gets the point')
+        result = 1;
         p1Score += points;
         p1CardInPlay = 0
         clearCardsFromHand();
-    } else {
-        console.log('P2 gets the point')
+    } else if (p1CardInPlay < p2CardInPlay) {
+        result = 2;
         p2Score += points;
-        p2CardInPlay = 0
+        p2CardInPlay = 0;
+        clearCardsFromHand();
+    } else if(p1CardInPlay === p2CardInPlay) {
+        result = 0;
         clearCardsFromHand();
     }
 }
@@ -147,29 +163,25 @@ function clearCardsFromHand() {
         }
     }
     cardsInPlay = [];
-    setTimeout(render, 3000);
+    setTimeout(render, 2000);
 }
 
 //tranfer the game from js to the DOM through render()
 function render() {
     p1container.innerHTML = p1Hand.map((card, idx) => buildCardUi(card, idx)).join("");
     p2container.innerHTML = p2Hand.map((card, idx) => buildCardUi(card, idx)).join("");
-    message.textContent = `Now it's ${lookUpObject[turn]}'s turn`;  
-}
-
-
-
-/* Wednesdayy's work */
-function warStage() {
-    if (p1CardInPlay === p2CardInPlay) {
-        message.textContent = "It's a WAR! In this round, select 3 cards.";
-    };
-    //after the message user should be able to click on 3 cards and they all stay face
-    if (cardsInPlay.length === 3) {
-           //as players flip 3 cards each they need to stay face up
+    p1ScoreEl.textContent = p1Score;
+    p2ScoreEl.textContent = p2Score;
+    if(result === 1) {
+        resultEl.textContent = 'Player One Gets the Point!';
+    } else if(result === 2) {
+        resultEl.textContent = 'Player Two Gets the Point!';
+    } else if (result === 0) {
+        resultEl.textContent = 'It\'s a WAR';
+    } else {
+        resultEl.textContent = '';
     }
-    flipCard(); //enables the cards to be flipped in war stage 
-    clearCardsFromHand();  //all 6 cards disappear using below function?
+    message.textContent = `Now it's ${lookUpObject[turn]}'s turn`;                                 
 }
 
 
