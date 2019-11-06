@@ -2,7 +2,7 @@
 
 Created By | Last Updated
 -----------|--------------
-Salma Khan | November 1, 2019
+Salma Khan | November 6, 2019
 
 War is a card game typically played by two players. It uses a standard playing card deck. The deck is divided evenly among the players. In unison, each player reveals the top card of their deck and the player with the higher card takes both of the cards played and moves them to their stack. 
 

@@ -23,6 +23,7 @@ document.querySelector('.player2Hand').addEventListener('click', flipCard);
 
 /*----- functions -----*/
 init();
+
 function init() {
     turn = 1
     winner = false; 
@@ -82,7 +83,6 @@ function dealCards() {
     }
 }
 
-
 function flipCard(evt) {
     const selectedCard = parseInt(evt.target.dataset.idx);
     if(isNaN(selectedCard)) return;
@@ -100,6 +100,7 @@ function flipCard(evt) {
     turn *= -1
 }
 
+
 function buildCardUi(card, i) {
     return `
         <div 
@@ -110,7 +111,7 @@ function buildCardUi(card, i) {
     `;
 }
 
-//this function should tell me who holds the higher card and player with higher card gets a point
+//this function shows who holds the higher card and player with higher card gets a point
  function checkScore() {
      render();
     if(cardsInPlay.length < 2) return;
@@ -149,28 +150,32 @@ function clearCardsFromHand() {
     setTimeout(render, 3000);
 }
 
-function warStage() {
-    if (p1CardInPlay === p2CardInPlay) {
-        message.textContent = "It's a WAR! In this round, select 3 cards.";
-    };
-    if (cardsInPlay.length === 3) {
-           //as players flip 3 cards each they need to stay face up
-
-    }
-    //all 6 cards disappear using below function?
-    // clearCardsFromHand();
-}
-
-
-// function winningScore() {}
-
-
-
 //tranfer the game from js to the DOM through render()
 function render() {
     p1container.innerHTML = p1Hand.map((card, idx) => buildCardUi(card, idx)).join("");
     p2container.innerHTML = p2Hand.map((card, idx) => buildCardUi(card, idx)).join("");
     message.textContent = `Now it's ${lookUpObject[turn]}'s turn`;  
+}
+
+
+
+/* Wednesdayy's work */
+function warStage() {
+    if (p1CardInPlay === p2CardInPlay) {
+        message.textContent = "It's a WAR! In this round, select 3 cards.";
+    };
+    //after the message user should be able to click on 3 cards and they all stay face
+    if (cardsInPlay.length === 3) {
+           //as players flip 3 cards each they need to stay face up
+    }
+    flipCard(); //enables the cards to be flipped in war stage 
+    clearCardsFromHand();  //all 6 cards disappear using below function?
+}
+
+
+function winningScore() {
+    let totalScore;
+    let holdScoreArray = [];
 }
 
 /* 
