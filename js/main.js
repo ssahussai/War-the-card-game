@@ -9,7 +9,8 @@ var ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K'
 /*----- app's state (variables) -----*/
 let turn, 
     p1Hand, 
-    p2Hand, 
+    p2Hand,
+    allCardsDelt, 
     p1CardInPlay, 
     p1Score, 
     p2CardInPlay, 
@@ -26,7 +27,6 @@ const message = document.getElementById('message');
 const resultEl = document.getElementById('result');
 const p1ScoreEl = document.getElementById('p1');
 const p2ScoreEl = document.getElementById('p2');
-
 
 /*----- event listeners -----*/
 document.getElementById('resetButton').addEventListener('click', init);
@@ -45,6 +45,7 @@ function init() {
     p1Hand = [];
     p2Hand = [];
     result = null;
+    allCardsDelt = false;
     p1CardInPlay = 0;
     p2CardInPlay = 0;
     p1Score = 0;
@@ -66,7 +67,6 @@ function buildMasterDeck() {
     });
     return deck;
 }
-
 
 function shuffleDeck() {
     const tempDeck = cards.slice();
@@ -113,7 +113,6 @@ function flipCard(evt) {
     turn *= -1
 }
 
-
 function buildCardUi(card, i) {
     return `
         <div 
@@ -151,9 +150,10 @@ function buildCardUi(card, i) {
     } else if(p1CardInPlay === p2CardInPlay) {
         result = 0;
         clearCardsFromHand();
-    }
+    };
 }
 
+//this function clears the players hands after the cards have been flipped 
 function clearCardsFromHand() {
     for(let i = 0; i < cardsInPlay.length; i++) {
         if(cardsInPlay[i].player === 'p1') {
@@ -163,7 +163,8 @@ function clearCardsFromHand() {
         }
     }
     cardsInPlay = [];
-    setTimeout(render, 2000);
+    if(p1Hand.length === 0 && p2Hand.length === 0) allCardsDelt = true;
+    setTimeout(render, 500);
 }
 
 //tranfer the game from js to the DOM through render()
@@ -172,36 +173,33 @@ function render() {
     p2container.innerHTML = p2Hand.map((card, idx) => buildCardUi(card, idx)).join("");
     p1ScoreEl.textContent = p1Score;
     p2ScoreEl.textContent = p2Score;
-    if(result === 1) {
-        resultEl.textContent = 'Player One Gets the Point!';
-    } else if(result === 2) {
-        resultEl.textContent = 'Player Two Gets the Point!';
-    } else if (result === 0) {
-        resultEl.textContent = 'It\'s a WAR';
-    } else {
+    winner = checkWinner();
+    if(winner) {
+        winner === 'p1'
+        ? message.textContent = `Congratulations! ${lookUpObject['1']} won!`
+        : message.textContent = `Congratulations! ${lookUpObject['-1']} won!`;
         resultEl.textContent = '';
+    } else if(result === 1) {
+        resultEl.textContent = 'Player One Gets The Point!';
+    } else if(result === 2) {
+        resultEl.textContent = 'Player Two Gets The Point!';
+    } else if (result === 0) {
+        resultEl.textContent = 'It\'s a TIE!';
+    } else {
+        message.textContent = `Now it's ${lookUpObject[turn]}'s turn`;                         
+        resultEl.textContent = '';
+    };
+}
+
+//calculate total score from the scores we have been keeping
+function checkWinner() {
+    if(allCardsDelt) {
+        return p1Score > p2Score ? 'p1' : 'p2'
+    } else {
+        return false;
     }
-    message.textContent = `Now it's ${lookUpObject[turn]}'s turn`;                                 
 }
 
 
-function winningScore() {
-    let totalScore;
-    let holdScoreArray = [];
-}
-
-/* 
-   
-    b.	If both cards have the same value, prompt a message saying “It’s a war. Please choose 3 more cards”.
-        i.	After the 2nd player’s turn, the game should add the value of all 6 cards and compare card values of both players to see who played the higher cards. 
-        ii.	If the card values different for both players,
-            1.	The game should drag all 6 cards to the right side of the player who played the higher cards.
-            2.	The cards that were clicked in the deck, should fadeout.
-        iii.	If the card values are the same again and it’s a tie, repeat step (5.b.i ) until the both players get different value cards. 
-            1.	If card values are different in war stage of the game, after the 2nd player’s turn, the game should add the value of all 6 cards and compare card values of both players to see who played the higher cards. 
-6.	The game should repeat steps 2-5 until all 52 cards disappear from the deck. 
-7.	The player with the most cards in the winning board should be calculated as winner.
-8.	I should see the message change to show me who has won the game
-*/
 
 
