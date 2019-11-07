@@ -113,7 +113,6 @@ function flipCard(evt) {
     turn *= -1
 }
 
-
 function buildCardUi(card, i) {
     return `
         <div 
@@ -151,7 +150,7 @@ function buildCardUi(card, i) {
     } else if(p1CardInPlay === p2CardInPlay) {
         result = 0;
         clearCardsFromHand();
-    }
+    };
 }
 
 function clearCardsFromHand() {
@@ -177,29 +176,27 @@ function render() {
     } else if(result === 2) {
         resultEl.textContent = 'Player Two Gets the Point!';
     } else if (result === 0) {
-        resultEl.textContent = 'It\'s a WAR';
+        resultEl.textContent = 'It\'s a TIE!';
     } else {
         resultEl.textContent = '';
-    }
-    message.textContent = `Now it's ${lookUpObject[turn]}'s turn`;                                 
+    };
+    message.textContent = `Now it's ${lookUpObject[turn]}'s turn`;                            
 }
 
 
+//calculate total score and declear winner 
 function winningScore() {
-    let totalScore;
-    let holdScoreArray = [];
+    if (p1Score > p2Score ) {
+        message.textContent = `Congratulations! ${lookUpObject['1']} won!`;
+    } else if (p1Score < p2Score ) {
+        message.textContent = `Congratulations! ${lookUpObject['-1']} won!`;
+    }
 }
 
 /* 
    
-    b.	If both cards have the same value, prompt a message saying “It’s a war. Please choose 3 more cards”.
-        i.	After the 2nd player’s turn, the game should add the value of all 6 cards and compare card values of both players to see who played the higher cards. 
-        ii.	If the card values different for both players,
-            1.	The game should drag all 6 cards to the right side of the player who played the higher cards.
-            2.	The cards that were clicked in the deck, should fadeout.
-        iii.	If the card values are the same again and it’s a tie, repeat step (5.b.i ) until the both players get different value cards. 
-            1.	If card values are different in war stage of the game, after the 2nd player’s turn, the game should add the value of all 6 cards and compare card values of both players to see who played the higher cards. 
-6.	The game should repeat steps 2-5 until all 52 cards disappear from the deck. 
+    b.	If both cards have the same value, prompt a message saying “It’s a TIE.”
+6.	The user should be able to play the game until all 52 cards disappear from the deck. 
 7.	The player with the most cards in the winning board should be calculated as winner.
 8.	I should see the message change to show me who has won the game
 */
