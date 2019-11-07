@@ -25,10 +25,10 @@ This is a simple two players card game intended for children. It uses a standard
 
 ## Next Steps...
 This game can be enhanced by making the following changes:
-    * Make it 3 players game
-    * Use animation and sound features to flip the card 
-    * The tie stage of the game can be more complicated. For example, in the tie stage each player can flip three cards instead of one and the      player with higher value cards flipped gets all the point. 
-    * The congratuatory winning message can have animation and sound affect. 
+* Make it 3 players game
+* Use animation and sound features to flip the card 
+* The tie stage of the game can be more complicated. For example, in the tie stage each player can flip three cards instead of one and the          player with higher value cards flipped gets all the point. 
+* The congratuatory winning message can have animation and sound affect. 
 
 ## Link To The Game
 [Click Here](https://ssahussai.github.io/War-the-card-game/) 
