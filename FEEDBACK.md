@@ -34,3 +34,5 @@ Great job getting your game successfully deployed to GitHub pages. You also did 
 ## Other Conventions and Best Practices
 
 You did a really good job with this game, Salma. As far as the code is concerned, you followed a ton of really good best practices we taught in the first couple of weeks in the program. As a final note, the biggest takeaway to improve upon would be the usage of smaller functions, which is typically preferred over fewer larger functions. 
+
+All in all, you did an excellent job on your first project! If you have any questions regarding this feedback, please don't hesitate to let me know!
