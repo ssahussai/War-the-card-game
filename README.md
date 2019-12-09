@@ -6,8 +6,9 @@ Salma Khan | November 7, 2019
 
 This is a simple two players card game intended for children. It uses a standard playing card deck. The deck is divided evenly among both players. Each player reveals the top card of their card to the other player, and the player with the higher card value takes both of the cards played and scores point. If the two cards played are of equal value, then there is a tie and neither players score any point. The game repeats until all 52 cards have been played. At the end of the game the player with the most cards win.
 
-## Wireframe 
-![Game Design](https://i.imgur.com/F9XpOFKl.jpg)
+## Screenshot of the Game 
+![Game Design](./images/wargame.png)
+
 
 ## User Stories
 * As a player, I should land on the homepage and see the gameboard with the title "War – the card game". All my 26 cards should be upside down on the deck, the scoreboard is cleared to zero, and the gameboard is ready for me to begin the game.

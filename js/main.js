@@ -123,7 +123,6 @@ function buildCardUi(card, i) {
     `;
 }
 
-//this function shows who holds the higher card and player with higher card gets a point
  function checkScore() {
     render();
     if(cardsInPlay.length < 2) return;
@@ -153,7 +152,6 @@ function buildCardUi(card, i) {
     };
 }
 
-//this function clears the players hands after the cards have been flipped 
 function clearCardsFromHand() {
     for(let i = 0; i < cardsInPlay.length; i++) {
         if(cardsInPlay[i].player === 'p1') {
@@ -167,7 +165,6 @@ function clearCardsFromHand() {
     setTimeout(render, 500);
 }
 
-//tranfer the game from js to the DOM through render()
 function render() {
     p1container.innerHTML = p1Hand.map((card, idx) => buildCardUi(card, idx)).join("");
     p2container.innerHTML = p2Hand.map((card, idx) => buildCardUi(card, idx)).join("");
@@ -191,7 +188,6 @@ function render() {
     };
 }
 
-//calculate total score from the scores we have been keeping
 function checkWinner() {
     if(allCardsDelt) {
         return p1Score > p2Score ? 'p1' : 'p2'
